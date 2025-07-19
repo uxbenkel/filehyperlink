@@ -1,0 +1,62 @@
+{
+    "name": "filehyperlink",
+    "publisher": "taoheeee",
+    "displayName": "FileHyperlink",
+    "description": "Find and open files by selected text.",
+    "icon": "filehyperlink.png",
+    "license": "MIT",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.64.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onStartupFinished"
+    ],
+    "main": "./dist/extension.js",
+    "contributes": {
+        "configuration": {
+            "title": "File Hyperlink",
+            "properties": {
+                "fileHyperlink.excludeFolders": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "default": [
+                        "**/create_table/**",
+                        "**/create_table_bk/**"
+                    ],
+                    "description": "An array of glob patterns for folders to exclude from the file search."
+                }
+            }
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run package",
+        "compile": "webpack",
+        "watch": "webpack --watch",
+        "package": "webpack --mode production --devtool hidden-source-map",
+        "compile-tests": "tsc -p . --outDir out",
+        "watch-tests": "tsc -p . -w --outDir out",
+        "pretest": "npm run compile-tests && npm run compile && npm run lint",
+        "lint": "eslint src",
+        "test": "vscode-test"
+    },
+    "devDependencies": {
+        "@types/vscode": "^1.64.0",
+        "@types/mocha": "^10.0.10",
+        "@types/node": "16.x",
+        "@typescript-eslint/eslint-plugin": "^6.21.0",
+        "@typescript-eslint/parser": "^6.21.0",
+        "eslint": "^8.57.0",
+        "typescript": "^5.8.3",
+        "ts-loader": "^9.5.2",
+        "webpack": "^5.99.7",
+        "webpack-cli": "^6.0.1",
+        "@vscode/test-cli": "^0.0.11",
+        "@vscode/test-electron": "^2.5.2"
+    }
+}

@@ -1,9 +1,10 @@
 {
     "name": "filehyperlink",
-    "publisher": "taoheeee",
+    "publisher": "uxbenkel",
     "displayName": "FileHyperlink",
     "description": "Find and open files by selected text.",
     "icon": "filehyperlink.png",
+    "repository": "https://github.com/uxbenkel/filehyperlink",
     "license": "MIT",
     "version": "0.0.1",
     "engines": {

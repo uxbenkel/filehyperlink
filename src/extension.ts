@@ -77,11 +77,11 @@ class FileDefinitionProvider implements vscode.DefinitionProvider {
         let filesToShow: vscode.Uri[];
 
         // 判断是否存在优选的 _SPARK 文件。
-        if (sparkFiles.length > 0) {
-            // 如果找到了一个或多个 _SPARK 文件，那么最终列表就只包含这些优选文件。
+        if (matchedFiles.length === 2 && sparkFiles.length > 0) {
+            // 只有当模糊匹配结果总数正好为 2，并且其中存在 _SPARK 文件时，才触发优选逻辑。
             filesToShow = sparkFiles;
         } else {
-            // 如果没有找到任何 _SPARK 文件，则回退到默认行为，显示所有模糊匹配到的文件。
+            // 其他所有情况（匹配数不为2，或匹配数为2但没有_SPARK文件），都回退到显示全部模糊匹配结果。
             filesToShow = matchedFiles;
         }
 

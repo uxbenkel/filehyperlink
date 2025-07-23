@@ -6,7 +6,7 @@
     "icon": "filehyperlink.png",
     "repository": "https://github.com/uxbenkel/filehyperlink",
     "license": "MIT",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "engines": {
         "vscode": "^1.64.0"
     },
@@ -18,22 +18,35 @@
     ],
     "main": "./dist/extension.js",
     "contributes": {
-        "configuration": {
-            "title": "File Hyperlink",
-            "properties": {
-                "fileHyperlink.excludeFolders": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
+        "configuration": [
+            {
+                "title": "File Hyperlink",
+                "properties": {
+                    "fileHyperlink.excludeFolders": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "default": [
+                            "**/create_table/**",
+                            "**/create_table_bak/**",
+                            "**/sqoop/**"
+                        ],
+                        "description": "An array of glob patterns for folders to exclude from the file search."
                     },
-                    "default": [
-                        "**/create_table/**",
-                        "**/create_table_bk/**"
-                    ],
-                    "description": "An array of glob patterns for folders to exclude from the file search."
+                    "fileHyperlink.excludeFilePatterns": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "default": [
+                            "_CHK.hql"
+                        ],
+                        "description": "An array of case-insensitive patterns. Files containing any of these patterns will be excluded from search results."
+                    }
                 }
             }
-        }
+        ]
     },
     "scripts": {
         "vscode:prepublish": "npm run package",

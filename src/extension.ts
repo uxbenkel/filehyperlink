@@ -45,23 +45,36 @@ class FileDefinitionProvider implements vscode.DefinitionProvider {
 
         // --- 文件搜索准备 ---
         // 从 VS Code 的用户设置中读取需要排除的文件夹配置。
-        const excludePatterns = vscode.workspace.getConfiguration('fileHyperlink').get<string[]>('excludeFolders', []);
+        const excludeFolderPatterns = vscode.workspace.getConfiguration('fileHyperlink').get<string[]>('excludeFolders', []);
+        const excludeFilePatterns = vscode.workspace.getConfiguration('fileHyperlink').get<string[]>('excludeFilePatterns', []);
+
         // 将数组形式的排除规则转换成 findFiles API 需要的 glob 字符串格式，例如 '{**/node_modules/**,**/dist/**}'。
-        const excludeGlob = `{${excludePatterns.join(',')}}`;
+        const excludeGlob = `{${excludeFolderPatterns.join(',')}}`;
         // 使用 VS Code API 在整个工作区内查找文件。'**/*' 表示查找所有子目录下的所有文件。
         const allFiles = await vscode.workspace.findFiles('**/*', excludeGlob, undefined, token);
 
         // --- 执行文件匹配 ---
         // 第一阶段：进行模糊匹配。
         // 遍历所有找到的文件，筛选出文件名（不含扩展名）包含选中文字的文件。
-        const matchedFiles = allFiles.filter(fileUri => {
+        let matchedFiles = allFiles.filter(fileUri => {
             // 使用 Node.js 的 path 模块来解析路径，并获取不带扩展名的文件名部分。
             const fileNameWithoutExt = path.parse(fileUri.fsPath).name;
             // 将文件名和搜索文本都转为小写，以实现不区分大小写的包含查询。
             return fileNameWithoutExt.toLowerCase().includes(selectedText.toLowerCase());
         });
 
-        // 如果经过模糊匹配后一个文件都没找到，就没必要继续了。
+        // 如果配置了文件名排除规则，则在模糊匹配结果上进行二次过滤。
+        if (excludeFilePatterns.length > 0) {
+            matchedFiles = matchedFiles.filter(fileUri => {
+                // 这里我们用包含扩展名的完整文件名进行匹配，例如 "AB_CHK.hql"
+                const fileNameWithExt = path.basename(fileUri.fsPath);
+                // .some() 方法检查 excludeFilePatterns 数组中是否至少有一个模式被包含在文件名中。
+                // 如果是，则 .some() 返回 true，我们用 ! 将其反转为 false，从而将该文件排除。
+                return !excludeFilePatterns.some(pattern => fileNameWithExt.toLowerCase().includes(pattern.toLowerCase()));
+            });
+        }
+
+        // 如果经过所有匹配和过滤后一个文件都没找到，就没必要继续了。
         if (matchedFiles.length === 0) {
             return undefined;
         }

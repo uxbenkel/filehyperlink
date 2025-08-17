@@ -6,7 +6,7 @@
     "icon": "filehyperlink.png",
     "repository": "https://github.com/uxbenkel/filehyperlink",
     "license": "MIT",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "engines": {
         "vscode": "^1.64.0"
     },
@@ -32,7 +32,7 @@
                             "**/create_table_bak/**",
                             "**/sqoop/**"
                         ],
-                        "description": "An array of glob patterns for folders to exclude from the file search."
+                        "description": "An array of glob patterns for folders to exclude from indexing."
                     },
                     "fileHyperlink.excludeFilePatterns": {
                         "type": "array",
@@ -43,8 +43,25 @@
                             "_CHK.hql"
                         ],
                         "description": "An array of case-insensitive patterns. Files containing any of these patterns will be excluded from search results."
+                    },
+                    "fileHyperlink.indexing.filesToInclude": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "default": [
+                            "**/*.sql",
+                            "**/*.hql"
+                        ],
+                        "description": "An array of glob patterns. Only files matching these patterns will be indexed for fast navigation."
                     }
                 }
+            }
+        ],
+        "commands": [
+            {
+                "command": "fileHyperlink.rebuildIndex",
+                "title": "FileHyperlink: Rebuild Index"
             }
         ]
     },

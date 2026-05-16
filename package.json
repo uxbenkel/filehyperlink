@@ -8,7 +8,7 @@
     "license": "MIT",
     "version": "0.0.3",
     "engines": {
-        "vscode": "^1.64.0"
+        "vscode": "^1.90.0"
     },
     "categories": [
         "Other"
@@ -77,11 +77,11 @@
         "test": "vscode-test"
     },
     "devDependencies": {
-        "@types/vscode": "^1.64.0",
+        "@types/vscode": "^1.90.0",
         "@types/mocha": "^10.0.10",
-        "@types/node": "16.x",
-        "@typescript-eslint/eslint-plugin": "^6.21.0",
-        "@typescript-eslint/parser": "^6.21.0",
+        "@types/node": "^22.x",
+        "@typescript-eslint/eslint-plugin": "^8.24.1",
+        "@typescript-eslint/parser": "^8.24.1",
         "eslint": "^8.57.0",
         "typescript": "^5.8.3",
         "ts-loader": "^9.5.2",

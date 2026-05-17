@@ -6,7 +6,7 @@
     "icon": "filehyperlink.png",
     "repository": "https://github.com/uxbenkel/filehyperlink",
     "license": "MIT",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "engines": {
         "vscode": "^1.90.0"
     },

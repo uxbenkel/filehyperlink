@@ -79,6 +79,14 @@ class FileDefinitionProvider implements vscode.DefinitionProvider {
             return undefined;
         }
 
+        // 长度校验：处理后的文本长度必须 >= 15 才触发跳转
+        if (selectedText.length < 15) {
+            return undefined;
+        }
+
+        // 自动去除 "YP_" 前缀 (不区分大小写)
+        selectedText = selectedText.replace(/^YP_/i, '');
+
         // --- 文件搜索准备 ---
         // 从 VS Code 的用户设置中读取需要排除的文件夹配置。
         // --- 核心逻辑变化：从“实时文件搜索”变为“即时内存查询” ---
